@@ -35,3 +35,4 @@ jobs:
           heroku_email: staronova.lenka@gmail.com
           healthcheck: https://pokedex-ci-cd.herokuapp.com/health
           checkstring: ok
+          rollbackonhealthcheckfailed: true
