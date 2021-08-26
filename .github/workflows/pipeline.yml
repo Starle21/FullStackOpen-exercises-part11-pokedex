@@ -37,6 +37,9 @@ jobs:
         env:
           CONTAIN_SKIP: ${{ contains(join(github.event.commits.*.message, ', '), '#skip') }}
         run: echo "$CONTAIN_SKIP"
+      - name: print if CONTAIN_SKIP is true
+        if: ${{ CONTAIN_SKIP }}
+        run: echo "CONTAIN_SKIP is true"
       # - name: Bump version and push tag
       #   if: ${{ github.event_name == 'push' }}
       #   uses: anothrNick/github-tag-action@1.33.0
