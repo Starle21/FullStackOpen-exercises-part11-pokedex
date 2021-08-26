@@ -35,7 +35,7 @@ jobs:
       # Modify your setup so that if a commit message in a pull request contains #skip, the merge will not be deployed to production and it is not tagged with a version number.
       - name: if commit messages contain skip
         env:
-          JOIN_MESSAGES: ${{ join(github.event.commits.*.message, ",") }}
+          JOIN_MESSAGES: ${{ join(github.event.commits.*.message, ', ') }}
         run: echo "$JOIN_MESSAGES"
       # - name: Bump version and push tag
       #   if: ${{ github.event_name == 'push' }}
