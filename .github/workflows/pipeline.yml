@@ -56,3 +56,9 @@ jobs:
           healthcheck: https://pokedex-ci-cd.herokuapp.com/health
           checkstring: ok
           rollbackonhealthcheckfailed: true
+## add slack channel notification - build succes, build failed..
+# metrics - datadog - how long the build takes and its evolution over time
+# periodic task - dependabot - checks for vulnarabilities in packages
+## health check workflow - if the server is up and running
+## set up the pipeline in your own project
+## protect master and ask for review from another user
