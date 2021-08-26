@@ -34,7 +34,7 @@ jobs:
       # skip a merged pull request to becoming tagged and released to production
       # Modify your setup so that if a commit message in a pull request contains #skip, the merge will not be deployed to production and it is not tagged with a version number.
       - name: if commit messages contain skip
-        if: ${{ github.event_name == 'push' }} && ${{ !contains(join(github.event.commits.*.message, ', '), '#skip') }}
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ', '), '#skip') }}
         env:
           CONTAIN_SKIP: ${{ contains(join(github.event.commits.*.message, ', '), '#skip') }}
         run: echo "$CONTAIN_SKIP"
