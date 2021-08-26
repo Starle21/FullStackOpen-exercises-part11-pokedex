@@ -14,7 +14,9 @@ app.get('/health', (req, res) => {
 
 // version endpoint
 app.get('/version', (req, res) => {
+
   res.send('8 merging from development') // change this string to ensure a new version deployed
+
 })
 
 // start the server
