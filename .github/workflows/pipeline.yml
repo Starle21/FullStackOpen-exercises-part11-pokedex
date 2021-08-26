@@ -22,29 +22,35 @@ jobs:
         run: npm run eslint
       - name: build
         run: npm run build
-      - name: test
-        run: npm run test
-      - name: e2e tests
-        uses: cypress-io/github-action@v2
-        with:
-          command: npm run test:e2e
-          start: npm run start-prod
-          wait-on: http://localhost:5000
-      - name: deploy to heroku
-        if: ${{ github.event_name == 'push' }}
-        uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: pokedex-ci-cd #Must be unique in Heroku
-          heroku_email: staronova.lenka@gmail.com
-          healthcheck: https://pokedex-ci-cd.herokuapp.com/health
-          checkstring: ok
-          rollbackonhealthcheckfailed: true
-      - uses: actions/checkout@v2
-      - name: Bump version and push tag
-        if: ${{ github.event_name == 'push' }}
-        uses: anothrNick/github-tag-action@1.33.0
+      # - name: test
+      #   run: npm run test
+      # - name: e2e tests
+      #   uses: cypress-io/github-action@v2
+      #   with:
+      #     command: npm run test:e2e
+      #     start: npm run start-prod
+      #     wait-on: http://localhost:5000
+      # - uses: actions/checkout@v2
+      # skip a merged pull request to becoming tagged and released to production
+      # Modify your setup so that if a commit message in a pull request contains #skip, the merge will not be deployed to production and it is not tagged with a version number.
+      - name: if commit messages contain skip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BUMP: patch
-          WITH_V: true
+          CONTAIN_SKIP: contains(join(github.event.commits.*.message, ","), "#skip")
+        run: echo "$CONTAIN_SKIP"
+      # - name: Bump version and push tag
+      #   if: ${{ github.event_name == 'push' }}
+      #   uses: anothrNick/github-tag-action@1.33.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     DEFAULT_BUMP: patch
+      #     WITH_V: true
+      # - name: deploy to heroku
+      #   if: ${{ github.event_name == 'push' }}
+      #   uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+      #   with:
+      #     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+      #     heroku_app_name: pokedex-ci-cd #Must be unique in Heroku
+      #     heroku_email: staronova.lenka@gmail.com
+      #     healthcheck: https://pokedex-ci-cd.herokuapp.com/health
+      #     checkstring: ok
+      #     rollbackonhealthcheckfailed: true
